@@ -1,32 +1,50 @@
-import "@/styles/global.css";
+import { colors } from "@/styles/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 
-import { Slot } from "expo-router";
-import { StatusBar } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-import {
-  useFonts,
-  Roboto_400Regular,
-  Roboto_700Bold,
-  Roboto_500Medium,
-} from "@expo-google-fonts/roboto";
-
-import { Loading } from "@/components/Loading";
-export default function Layout() {
-  const [fontsLoaded] = useFonts({
-    Roboto_400Regular,
-    Roboto_700Bold,
-    Roboto_500Medium,
-  });
-
-  if (!fontsLoaded) {
-    return <Loading />;
-  }
-
+export default function TabLayout() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar barStyle="dark-content" backgroundColor="#202123" />
-      <Slot />
-    </GestureHandlerRootView>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.gray[600],
+          borderRightWidth: 0,
+          minHeight: 74,
+        },
+        tabBarItemStyle: {
+          paddingBottom: 34,
+          paddingTop: 14,
+        },
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: colors.orange[500],
+        tabBarInactiveTintColor: colors.gray[400],
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="email" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="chat"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="chat-bubble" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="meeting"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="videocam" size={size} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
