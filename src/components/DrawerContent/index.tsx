@@ -2,6 +2,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
 import { DrawerButton } from "@/components/DrawerButton";
+import { CustomOptions } from "../../../types/navigation";
 
 export function DrawerContent(drawerProps: DrawerContentComponentProps) {
   return (
@@ -22,16 +23,24 @@ export function DrawerContent(drawerProps: DrawerContentComponentProps) {
         <View className="mt-1">
           {drawerProps.state.routes.map((route, index) => {
             const isFocused = drawerProps.state.index === index;
-            const options = drawerProps.descriptors[route.key].options;
+            const options = drawerProps.descriptors[route.key]
+              .options as CustomOptions;
             console.log("options", options);
             if (options.title === undefined) {
               return;
             }
-            return <DrawerButton key={route.key} />;
+            return (
+              <DrawerButton
+                key={route.key}
+                title={options.title}
+                iconName={options.iconName}
+                isDivider={options.isDivider}
+                isFocused={isFocused}
+                notification={options.notifications}
+              />
+            );
           })}
         </View>
-
-        <DrawerButton />
       </ScrollView>
     </View>
   );
